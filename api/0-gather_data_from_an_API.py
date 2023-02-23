@@ -1,35 +1,55 @@
 #!/usr/bin/python3
-"""Module"""
-
+"""
+    python script that returns TODO list progress for a given employee ID
+"""
+import json
 import requests
+from sys import argv
 
-import sys
 
 if __name__ == "__main__":
-
-    users = requests.get(
+    """
+        request user info by employee ID
+    """
+    request_employee = requests.get(
         'https://jsonplaceholder.typicode.com/users/{}/'.format(argv[1]))
-        
-        user = json.loads(users.text)
+    """
+        convert json to dictionary
+    """
+    employee = json.loads(request_employee.text)
+    """
+        extract employee name
+    """
+    e_name = employee.get("name")
 
-    name = user.get("name")
-
-    request_todos =requests.get(
+    """
+        request user's TODO list
+    """
+    request_todos = requests.get(
         'https://jsonplaceholder.typicode.com/users/{}/todos'.format(argv[1]))
-    todos = json.loads(request_todos.text)  
-    t_Tasks = 0
-    completed = 0
-    i = 1
-    
+    """
+        dictionary to store task status in boolean format
+    """
+    tasks = {}
+    """
+        convert json to list of dictionaries
+    """
+    todos = json.loads(request_todos.text)
+    """
+        loop through dictionary & get completed tasks
+    """
+    for dictionary in todos:
+        tasks.update({dictionary.get("title"): dictionary.get("completed")})
 
-    for i in todos.json():
-        if user.get('userId') == i:
-            t_Tasks += 1
-            if t in todos.items() is True:
-                completed += 1
-
-    print('Employee {} is done with tasks({}/{}):'
-          .format(name, completed, totalTasks))
-
-     if todos.items()is True:
-         print('\n'.join(["\t " + user.get('title') for task in todos.json()
+    """
+        return name, total number of tasks & completed tasks
+    """
+    EMPLOYEE_NAME = e_name
+    NUMBER_OF_TASKS = len(tasks)
+    DONE_TASKS = len([k for k, v in tasks.items() if v is True])
+    print("Employee {} is done with tasks({}/{}):".format(
+        EMPLOYEE_NAME, DONE_TASKS, NUMBER_OF_TASKS))
+    for k, v in tasks.items():
+        if v is True:
+         k = todos.get("title")
+            print("\t\b {}".format(k))
