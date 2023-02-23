@@ -20,7 +20,7 @@ if __name__ == "__main__":
     """
         extract employee name
     """
-    e_name = employee.get("name")
+    employee_name = employee.get("name")
 
     """
         request user's TODO list
@@ -34,22 +34,21 @@ if __name__ == "__main__":
     """
         convert json to list of dictionaries
     """
-    todos = json.loads(request_todos.text)
+    employee_todos = json.loads(request_todos.text)
     """
         loop through dictionary & get completed tasks
     """
-    for dictionary in todos:
+    for dictionary in employee_todos:
         tasks.update({dictionary.get("title"): dictionary.get("completed")})
 
     """
         return name, total number of tasks & completed tasks
     """
-    EMPLOYEE_NAME = e_name
-    NUMBER_OF_TASKS = len(tasks)
-    DONE_TASKS = len([k for k, v in tasks.items() if v is True])
+    EMPLOYEE_NAME = employee_name
+    TOTAL_NUMBER_OF_TASKS = len(tasks)
+    NUMBER_OF_DONE_TASKS = len([k for k, v in tasks.items() if v is True])
     print("Employee {} is done with tasks({}/{}):".format(
-        EMPLOYEE_NAME, DONE_TASKS, NUMBER_OF_TASKS))
+        EMPLOYEE_NAME, NUMBER_OF_DONE_TASKS, TOTAL_NUMBER_OF_TASKS))
     for k, v in tasks.items():
         if v is True:
-         k = todos.get("title")
-            print("\t\b {}".format(k))
+            print("\t {}".format(k))
