@@ -2,6 +2,7 @@
 """Module"""
 
 import requests
+
 import sys
 
 if __name__ == "__main__":
@@ -19,7 +20,7 @@ if __name__ == "__main__":
     for task in todos.json():
         if task.get('userId') == int(userId):
             totalTasks += 1
-            if task.get('completed'):
+            if task.get('completed')== 'True':
                 completed += 1
 
     print('Employee {} is done with tasks({}/{}):'
